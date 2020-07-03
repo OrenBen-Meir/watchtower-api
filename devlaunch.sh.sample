@@ -1,5 +1,16 @@
 # set environment variables
 
+export FLASK_ENV="development"
+export CLOUDINARY_CLOUD_NAME="your cloudinary cloud name"
+export CLOUDINARY_API_KEY="your cloudinary api key"
+export CLOUDINARY_API_SECRET="your cloudinary secret key"
+export SECRET_KEY="your secret key"
+export SQLALCHEMY_DATABASE_URI="a link to sql server database"
+
+# may not be necessary
+export MAIL_USERNAME="some gmail"
+export MAIL_PASSWORD="some password@777"
+
 # run app
 export FLASK_APP=run.py
 flask run
