@@ -130,3 +130,6 @@ dmypy.json
 
 # Development script
 devlaunch.sh
+
+# vscode
+.vscode/

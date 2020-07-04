@@ -1,3 +1,5 @@
+source venv/bin/activate
+
 # set environment variables
 
 export FLASK_ENV="development"

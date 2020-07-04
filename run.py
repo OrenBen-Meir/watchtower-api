@@ -1,10 +1,12 @@
-from flask import Flask
-app = Flask(__name__)
+from main.application import create_app     # The app variable is created in the package, file __init__.py
+										# Since app is no longer accessible it's out of scope we need 
+										# to create an instance of app, so let's import the create_app() function from __init__.py 
 
-@app.route("/")
-def hello():
-    return "<html><body><h1>Hello WatchTower!</h1><br><h2>Test azure change 2</h2><br><h1>Bottom text</h1></body></html>\n"
+app = create_app()						# Create instance of app, this is using the Config class inside config.py by default! 
 
-if __name__ == '__main__':
-    app.run()
+
+if __name__ == "__main__":
+    app.run(debug = app.config['FLASK_ENV'] != 'production')
+else:
+	application = app
  
