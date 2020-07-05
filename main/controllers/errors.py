@@ -7,7 +7,7 @@ errorurl_blueprint = Blueprint('errorurl_blueprint', __name__, url_prefix="/erro
 
 @errorurl_blueprint.route("/")
 def badrequest():
-    raise error_creation.bad_request(reason = "test")
+    raise error_creation.bad_request(reason = ["test", "this is for demonstration"])
 
 @errorurl_blueprint.route("/noreason")
 def noreason():

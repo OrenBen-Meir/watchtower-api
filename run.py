@@ -6,7 +6,7 @@ app = create_app()						# Create instance of app, this is using the Config class
 
 
 if __name__ == "__main__":
-    app.run(debug = app.config['FLASK_ENV'] != 'production')
+    app.run(debug = app.config['FLASK_ENV'] == 'development')
 else:
 	application = app
  
