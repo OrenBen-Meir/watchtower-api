@@ -1,3 +1,4 @@
+# this is for testing and demonstration, will later be removed
 from flask import (render_template, url_for, flash, redirect, request, abort, Blueprint, jsonify)
 from main.application import db
 
