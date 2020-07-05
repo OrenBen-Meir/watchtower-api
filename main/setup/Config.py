@@ -1,6 +1,9 @@
 import os
 
 class Config:
+    """
+    describes general application configuration, mainly from the environment
+    """
     SQLALCHEMY_TRACK_MODIFICATIONS = False                                  # prevents SQL alchemy FSADeprecationWarning warning
     SEND_FILE_MAX_AGE_DEFAULT = 0                                           # to prevent caching
     FLASK_ENV = os.environ.get('FLASK_ENV')
