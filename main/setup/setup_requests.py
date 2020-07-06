@@ -2,13 +2,11 @@ from flask import Flask, jsonify
 from main.errors import ApplicationException
 
 def _register_urls(app : Flask):
-    from main.controllers.test import testBlueprint
-    from main.controllers.rootUrls import root
-    from main.controllers.errors import errorurl_blueprint
-    
-    app.register_blueprint(testBlueprint)
-    app.register_blueprint(root)
-    app.register_blueprint(errorurl_blueprint)
+    from main.controllers.root import root_bp
+    from main.controllers.users import users_bp
+
+    app.register_blueprint(users_bp)
+    app.register_blueprint(root_bp)
 
 def setup_requests(app : Flask):
     """
