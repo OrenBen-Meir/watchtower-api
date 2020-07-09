@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     username = db.Column('username', db.String(30), unique=True, nullable=False)
     email = db.Column('email', db.String(120), unique=True, nullable=False)
     password = db.Column('password', db.String(60), nullable=False)
-    user_roles = db.Column('user_roles', db.String(1024), nullable=False)                 
+    user_roles = db.Column('user_roles', db.String(None), nullable=False)                 
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)

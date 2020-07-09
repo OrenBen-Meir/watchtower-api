@@ -2,12 +2,14 @@ source venv/bin/activate
 
 # set environment variables
 
-export FLASK_ENV="development"
 export CLOUDINARY_CLOUD_NAME="your cloudinary cloud name"
 export CLOUDINARY_API_KEY="your cloudinary api key"
 export CLOUDINARY_API_SECRET="your cloudinary secret key"
 export SECRET_KEY="your secret key"
-export SQLALCHEMY_DATABASE_URI="a link to sql server database"
+export SQL_USERNAME="your sql username"
+export SQL_PASSWORD="your sql password"
+export SQL_SERVER_NAME="your sql server na,e"
+export SQL_DRIVER="your sql driver"
 
 # may not be necessary
 export MAIL_USERNAME="some gmail"

@@ -133,3 +133,6 @@ devlaunch.sh
 
 # vscode
 .vscode/
+
+#sql drivers
+obdc.ini
