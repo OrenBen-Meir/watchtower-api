@@ -1,0 +1,5 @@
+[MSSQLServerDatabase]
+Driver      = <replace including angle brackets with driver name>
+Description = Connect to my SQL Server instance
+Trace       = No
+Server      = <replace including angle brackets with localhost if in development, else sql server domain>
