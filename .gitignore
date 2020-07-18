@@ -134,5 +134,8 @@ devlaunch.sh
 # vscode
 .vscode/
 
+# jetbrains
+.idea/
+
 #sql drivers
 obdc.ini
