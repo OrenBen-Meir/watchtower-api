@@ -1,0 +1,16 @@
+CALL venv/Scripts/activate.bat
+
+set CLOUDINARY_CLOUD_NAME=your cloudinary cloud name
+set CLOUDINARY_API_KEY=your cloudinary api key
+set CLOUDINARY_API_SECRET=your cloudinary secret key
+set SECRET_KEY=your secret key
+set SQL_USERNAME=your sql username
+set SQL_PASSWORD=your password
+set SQL_SERVER_NAME=your server name
+set SQL_DRIVER=your sql driver
+
+set MAIL_USERNAME=some gmail
+set MAIL_PASSWORD=some password
+
+set FLASK_APP=run.py
+flask %1 %2 %3 %4 %5 %6 %7 %8 %9
