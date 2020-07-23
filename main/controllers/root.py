@@ -3,6 +3,7 @@ from main.application import db
 
 root_bp = Blueprint('root_bp', __name__)
 
+
 @root_bp.route("/")
-def testRoute():
+def rootRoute():
     return "watchtower"
