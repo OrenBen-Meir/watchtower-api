@@ -1,14 +1,16 @@
 from flask import Flask, jsonify
 from main.errors import ApplicationException
 
-def _register_urls(app : Flask):
+
+def _register_urls(app: Flask):
     from main.controllers.root import root_bp
     from main.controllers.users import users_bp
 
     app.register_blueprint(users_bp)
     app.register_blueprint(root_bp)
 
-def setup_requests(app : Flask):
+
+def setup_requests(app: Flask):
     """
     configures all http requests.
     must be called last when app is created to prevent circular imports
@@ -26,9 +28,9 @@ def setup_requests(app : Flask):
         r.headers["Expires"] = "0"
         r.headers['Cache-Control'] = 'public, max-age=0'
         return r
-        
+
     @app.errorhandler(ApplicationException)
-    def handle_application_error(error : ApplicationException):
+    def handle_application_error(error: ApplicationException):
         response = jsonify(error.to_dict())
         response.status_code = error.status_code
         return response
