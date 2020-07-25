@@ -132,6 +132,7 @@ dmypy.json
 # Development script
 devlaunch.bat
 devlaunch.sh
+devlaunch.ps1
 
 # vscode
 .vscode/
