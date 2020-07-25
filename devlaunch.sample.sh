@@ -19,13 +19,24 @@ fi
 
 # your environment variables to edit
 export SECRET_KEY="your secret key"
+
 export SQL_USERNAME="your sql username"
 export SQL_PASSWORD="your sql password"
 export SQL_SERVER_NAME="your sql server name"
 export SQL_DRIVER="your sql driver"
 
+export FIREBASE_API_KEY="Your API Key"
+export FIREBASE_AUTH_DOMAIN="YourprojectId.firebaseapp.com"
+export FIREBASE_DATABASE_URL="https://YourdatabaseName.firebaseio.com"
+export FIREBASE_PROJECT_ID="your firebase project ID"
+export FIREBASE_STORAGE_BUCKET="YourprojectId.appspot.com"
+export FIREBASE_MESSAGING_SENDER_ID="your firebase messaging sender Id"
+export FIREBASE_APP_ID="your firebase app Id"
+export FIREBASE_MEASUREMENT_ID="your firebase messaging senser id"
+
 # to set up flask
 export FLASK_ENV=development
 export FLASK_APP=run.py
 
+# run flask
 flask "$@"

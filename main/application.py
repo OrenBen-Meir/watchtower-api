@@ -1,14 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from main.setup import Config, setup_requests
+from main.setup import Config, setup_requests, initialize_firebase
 
 db = SQLAlchemy()
+firebase = initialize_firebase()
 
 
 def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
 
     db.init_app(app)
 
