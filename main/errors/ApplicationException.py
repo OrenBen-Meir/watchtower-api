@@ -1,8 +1,6 @@
-from flask import jsonify
-
 class ApplicationException(Exception):
 
-    def __init__(self, message : str = "", status_code : int = 400, reasons : list = None, payload : dict = None):
+    def __init__(self, message: str = "", status_code: int = 400, reasons: list = None, payload: dict = None):
         Exception.__init__(self)
         self.message = message
         self.status_code = status_code
