@@ -1,5 +1,6 @@
 Flask==1.1.2
 Flask-Migrate==2.5.3
-Flask-SQLAlchemy==2.4.3
+Flask-SQLAlchemy==2.4.4
 py3-validate-email==0.2.9
 pyodbc==4.0.30
+Pyrebase==3.0.27
