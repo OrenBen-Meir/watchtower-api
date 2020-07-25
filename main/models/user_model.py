@@ -1,40 +1,15 @@
 from flask_sqlalchemy import Pagination
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # For email Reset JSON token!
-from flask import current_app
-from main.application import db, \
-    login_manager  # Resolves issue with circular imports! Login manager is a flask-extension
-from flask_login import UserMixin
+
+from main.application import db
 
 
-@login_manager.user_loader
-def laod_user(user_id):
-    return User.query.get(int(user_id))
-
-
-class User(db.Model, UserMixin):
+class User(db.Model):
     __tablename__ = 'user'
 
     id = db.Column('id', db.Integer, primary_key=True)
+    firebase_uid = db.Column('firebase_uid', db.String(128), nullable=False)
     username = db.Column('username', db.String(30), unique=True, nullable=False)
-    email = db.Column('email', db.String(120), unique=True, nullable=False)
-    password = db.Column('password', db.String(60), nullable=False)
     user_roles = db.Column('user_roles', db.String(None), nullable=False)
-
-    def get_reset_token(self, expires_sec=1800):
-        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode(
-            'utf-8')  # s.dumps returns a payload! decode 'utf-8' makes sure were returning a string and not bytes
-
-    @staticmethod  # This method needs to be static so that it cannot reference self, only the token can be passed in!
-    def verify_reset_token(token):
-        s = Serializer(current_app.config['SECRET_KEY'])
-        try:
-            user_id = s.loads(token)['user_id']
-        except:
-            return None
-
-        return User.query.get(
-            user_id)  # So if everything goes smoothly, and no exceptions go off, return the user in the database with user_id.
 
     @property
     def user_roles_list(self) -> list:
@@ -49,10 +24,6 @@ class User(db.Model, UserMixin):
 
 
 class UserQuery(object):
-    @staticmethod
-    def get_user_by_email_or_username(email: str = None, username: str = None) -> User:
-        return User.query.filter((User.email == email) | (User.username == username)).first()
-
     @staticmethod
     def get_users_by_pagination(page: int, per_page: int) -> Pagination:
         return User.query.order_by(User.id.asc()).paginate(page, per_page, error_out=False)

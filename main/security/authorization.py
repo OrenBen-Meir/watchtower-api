@@ -1,7 +1,4 @@
-from flask_login import current_user
 from functools import wraps
-
-from main.errors import error_creation
 
 
 def authenticate(roles: list = None):
@@ -11,12 +8,9 @@ def authenticate(roles: list = None):
     def decorator(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
-            if not current_user.is_authenticated:
-                raise error_creation.authorization_error(["login required"])
-            if not roles or all(role in current_user.user_roles_list for role in roles):
-                return f(*args, **kwargs)
-            else:
-                raise error_creation.permission_error(["permission denied"])
+            # Todo: make sure user is signed in
+            # Todo: set up roles rules based on firebase
+            return f(*args, **kwargs)
 
         return wrapper
 
