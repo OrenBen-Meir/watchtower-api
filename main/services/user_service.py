@@ -22,6 +22,6 @@ def logged_in_user() -> UserInfoLayout:
 
 
 def get_users(page: int, per_page: int) -> dict:
-    users_pagination = UserQuery.get_users_by_pagination(page, per_page)
+    users_pagination = UserQuery.get_active_users_by_pagination(page, per_page)
     users_pagination.items = [UserInfoLayout().from_user(user).to_dict() for user in users_pagination.items]
     return pagination_to_dict(users_pagination)

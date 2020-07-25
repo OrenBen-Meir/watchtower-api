@@ -1,20 +1,19 @@
 from main.layouts.users import UserSignUpLayout
-from main.models.user_model import User
+from main.models.user_model import User, UserQuery
 from main.errors.error_creation import bad_request
 from validate_email import validate_email
 
 
 def user_creation_rules(user_signup_layout: UserSignUpLayout):
     reasons = []
-    # unique email constraint is handled in a service
 
     if user_signup_layout.username is None:
         reasons.append("Username can't be empty")
     else:
-        if User.query.filter_by(username=user_signup_layout.username).count() > 0:
-            reasons.append("username already used")
-        if len(user_signup_layout.username) < 6 and 30 < len(user_signup_layout.username):
+        if 6 > len(user_signup_layout.username) > 30:
             reasons.append("Username must be 6 to 30 characters")
+        if UserQuery.exists_active_user_with_username(user_signup_layout.username):
+            reasons.append("username already used")
 
     if user_signup_layout.email is None:
         reasons.append("email can't be empty")
