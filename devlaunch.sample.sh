@@ -1,20 +1,13 @@
 source venv/bin/activate
 
 # set environment variables
-
-export CLOUDINARY_CLOUD_NAME="your cloudinary cloud name"
-export CLOUDINARY_API_KEY="your cloudinary api key"
-export CLOUDINARY_API_SECRET="your cloudinary secret key"
 export SECRET_KEY="your secret key"
 export SQL_USERNAME="your sql username"
 export SQL_PASSWORD="your sql password"
 export SQL_SERVER_NAME="your sql server na,e"
 export SQL_DRIVER="your sql driver"
 
-# may not be necessary
-export MAIL_USERNAME="some gmail"
-export MAIL_PASSWORD="some password@777"
-
 # run app
+export FLASK_ENV=development
 export FLASK_APP=run.py
 flask $1 $2 $3 $4 $5 $6 $7 $8 $9  

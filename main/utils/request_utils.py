@@ -1,6 +1,5 @@
 from functools import wraps
 from flask import request
-from flask_sqlalchemy import Pagination
 
 from main.errors import error_creation
 
@@ -19,21 +18,10 @@ def request_is_json(function):
     return wrapper
 
 
-def success_response() -> dict:
+def success_response(message="Success!!") -> dict:
     """
     generic success json response dictionary
     """
-    return {"success": True}
+    return {"success_message": message}
 
 
-def pagination_to_dict(page: Pagination) -> dict:
-    if page.per_page > page.total:
-        per_page = page.total
-    else:
-        per_page = page.per_page
-    return {
-        'items': page.items,
-        'page': page.page,
-        'per_page': per_page,
-        'total': page.total
-    }

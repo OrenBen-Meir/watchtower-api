@@ -1,8 +1,7 @@
 from flask import request, Blueprint, jsonify
-from flask_login import logout_user
 
 from main.errors import error_creation
-from main.layouts.users import UserLayout
+from main.layouts.users import UserSignUpLayout, UserLoginLayout
 from main.security import roles
 from main.security.authorization import authenticate
 from main.services import user_service
@@ -14,23 +13,23 @@ users_bp = Blueprint('users_bp', __name__, url_prefix="/users")
 @users_bp.route("/register", methods=['POST'])
 @request_is_json
 def register():
-    user_layout = UserLayout().from_dict(request.json)
-    response_layout = user_service.register_user(user_layout)
+    user_signup_layout = UserSignUpLayout().from_dict(request.json)
+    response_layout = user_service.register_user(user_signup_layout)
     return jsonify(response_layout.to_dict())
 
 
 @users_bp.route('/login', methods=['POST'])
 @request_is_json
 def login():
-    user_layout = UserLayout().from_dict(request.json)
+    user_layout = UserLoginLayout().from_dict(request.json)
     result = user_service.login_from_layout(user_layout)
     return jsonify(result)
 
 
 @users_bp.route('/logout', methods=['GET'])
 def logout():
-    logout_user()
-    return jsonify(success_response())
+    # Todo: clear user session cookie
+    return jsonify(success_response(message="logged out!!"))
 
 
 @users_bp.route("/current", methods=['GET'])
