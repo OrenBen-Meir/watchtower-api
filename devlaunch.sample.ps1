@@ -13,4 +13,4 @@ $Env:SQL_DRIVER="your sql driver"
 $Env:FLASK_APP="run.py"
 $Env:FLASK_ENV="development"
 
-flask $argumentList
+flask $args
