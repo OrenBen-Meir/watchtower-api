@@ -45,7 +45,7 @@ class UserLoginLayout:
 
 
 class UserInfoLayout:
-    def __init__(self, username=None, email=None, uid=None, user_roles=None, json=None):
+    def __init__(self, username=None, email=None, user_roles=None, json=None):
         if json is not None:
             self.from_dict(json)
         else:
@@ -71,5 +71,5 @@ class UserInfoLayout:
     def from_user(user: User):
         user_info_layout = UserInfoLayout()
         user_info_layout.username = user.username
-        user_info_layout.user_roles = user.user_roles
+        user_info_layout.user_roles = user.user_roles_list
         return user_info_layout
