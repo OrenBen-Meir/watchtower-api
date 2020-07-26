@@ -1,5 +1,5 @@
-from main.layouts.user import UserSignUpLayout
-from main.models.user import User, UserQuery
+from main.layouts.user_layouts import UserSignUpLayout
+from main.models.user_model import User, UserQuery
 from main.errors.error_creation import bad_request
 from validate_email import validate_email
 

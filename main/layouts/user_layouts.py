@@ -1,4 +1,4 @@
-from main.models.user import User
+from main.models.user_model import User
 
 
 class UserSignUpLayout:

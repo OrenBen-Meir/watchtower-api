@@ -2,8 +2,8 @@ from requests import HTTPError
 
 from main.application import firebase, db
 from main.business_rules import user_rules
-from main.layouts.user import UserLoginLayout, UserSignUpLayout, UserInfoLayout
-from main.models.user import UserQuery, User
+from main.layouts.user_layouts import UserLoginLayout, UserSignUpLayout, UserInfoLayout
+from main.models.user_model import UserQuery, User
 from main.security import roles
 from main.utils.request_utils import success_response
 from main.utils.data_format import pagination_to_dict

@@ -1,5 +1,5 @@
 from flask_sqlalchemy import Pagination
-from sqlalchemy import and_, true
+from sqlalchemy import and_, true, desc
 
 from main.application import db
 
@@ -32,6 +32,10 @@ class User(db.Model):
 
 
 class UserQuery(object):
+    @staticmethod
+    def get_first_active_user_with_firebase_uid(firebase_uid: str) -> User:
+        return User.query.filter(and_(User.firebase_uid == firebase_uid, User.active == true())).order_by(desc(User.id)).first()
+
     @staticmethod
     def active_users_with_firebase_uid(firebase_uid: str):
         return User.query.filter(and_(User.firebase_uid == firebase_uid, User.active == true()))
