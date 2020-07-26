@@ -23,8 +23,7 @@ def upgrade():
     sa.Column('firebase_uid', sa.String(length=128), nullable=False),
     sa.Column('username', sa.String(length=30), nullable=False),
     sa.Column('user_roles', sa.String(), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('username')
+    sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
 

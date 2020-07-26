@@ -3,8 +3,8 @@ from main.errors import ApplicationException
 
 
 def _register_urls(app: Flask):
-    from main.controllers.root import root_bp
-    from main.controllers.users import users_bp
+    from main.controllers.root_controller import root_bp
+    from main.controllers.users_controller import users_bp
 
     app.register_blueprint(users_bp)
     app.register_blueprint(root_bp)

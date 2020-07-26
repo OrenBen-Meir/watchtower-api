@@ -1,7 +1,7 @@
 CALL venv/Scripts/activate.bat
 
 REM your env variables
-set SECRET_KEY=your secret key
+set AES_KEY=your aes key (has to be 16, 24, or 32 characters long)
 
 set SQL_USERNAME=your sql username
 set SQL_PASSWORD=your password

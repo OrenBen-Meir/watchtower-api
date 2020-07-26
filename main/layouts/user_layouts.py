@@ -45,17 +45,18 @@ class UserLoginLayout:
 
 
 class UserInfoLayout:
-    def __init__(self, json=None):
-        self.username = None
-        self.email = None
-        self.user_roles = None
+    def __init__(self, username=None, email=None, user_roles=None, json=None):
         if json is not None:
             self.from_dict(json)
+        else:
+            self.username = username
+            self.email = email
+            self.user_roles = user_roles
 
     def from_dict(self, json: dict):
         self.username = json.get("username", None)
-        self.email = json.get("email", None)
         self.user_roles = json.get("user_roles", None)
+        self.email = json.get("email", None)
         return self
 
     def to_dict(self) -> dict:
@@ -66,6 +67,9 @@ class UserInfoLayout:
         }
         return {k: v for k, v in dict_form.items() if v is not None}
 
-    def from_user(self, user: User):
-        self.username = user.username
-        self.user_roles = user.user_roles
+    @staticmethod
+    def from_user(user: User):
+        user_info_layout = UserInfoLayout()
+        user_info_layout.username = user.username
+        user_info_layout.user_roles = user.user_roles_list
+        return user_info_layout
