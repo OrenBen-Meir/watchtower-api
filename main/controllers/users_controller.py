@@ -15,7 +15,7 @@ def register():
     user_signup_layout = UserSignUpLayout(json=request.json)
     response_layout, token = user_service.register_user(user_signup_layout)
     res = jsonify(response_layout.to_dict())
-    session.set_session_cookie(res, token)
+    session.set_session_cookie_from_token(res, token)
     return res
 
 
