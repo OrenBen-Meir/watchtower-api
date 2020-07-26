@@ -1,7 +1,7 @@
 from functools import wraps
 
 
-def authenticate(roles: list = None):
+def authenticate(roles: list = None, verified=True):
     if roles is None:
         roles = []
 

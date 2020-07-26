@@ -1,14 +1,22 @@
+import datetime
+
 from flask import request, Blueprint, jsonify
 
 from main.errors import error_creation
 from main.layouts.user import UserSignUpLayout, UserLoginLayout
 from main.security import roles, cookie_names
-from main.security.crypt import aes_encrypt
 from main.security.authorization import authenticate
+from main.security.crypt import aes_encrypt
 from main.services import user_service
 from main.utils.request_utils import request_is_json, success_response
 
 users_bp = Blueprint('users_bp', __name__, url_prefix="/users")
+
+
+def set_session_cookie(response, token):
+    expires_in = datetime.timedelta(days=5)
+    expires = datetime.datetime.now() + expires_in
+    response.set_cookie(cookie_names.session, value=aes_encrypt(token), httponly=True, expires=expires)
 
 
 @users_bp.route("/register", methods=['POST'])
@@ -17,7 +25,7 @@ def register():
     user_signup_layout = UserSignUpLayout(json=request.json)
     response_layout, token = user_service.register_user(user_signup_layout)
     res = jsonify(response_layout.to_dict())
-    res.set_cookie(cookie_names.session, value=aes_encrypt(token), httponly=True)
+    set_session_cookie(res, token)
     return res
 
 
