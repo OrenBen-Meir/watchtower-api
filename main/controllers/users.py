@@ -3,6 +3,7 @@ from flask import request, Blueprint, jsonify
 from main.errors import error_creation
 from main.layouts.user import UserSignUpLayout, UserLoginLayout
 from main.security import roles, cookie_names
+from main.security.crypt import aes_encrypt
 from main.security.authorization import authenticate
 from main.services import user_service
 from main.utils.request_utils import request_is_json, success_response
@@ -16,7 +17,7 @@ def register():
     user_signup_layout = UserSignUpLayout(json=request.json)
     response_layout, token = user_service.register_user(user_signup_layout)
     res = jsonify(response_layout.to_dict())
-    res.set_cookie(cookie_names.session, value=token, httponly=True)
+    res.set_cookie(cookie_names.session, value=aes_encrypt(token), httponly=True)
     return res
 
 

@@ -18,7 +18,7 @@ else
 fi
 
 # your environment variables to edit
-export SECRET_KEY="your secret key"
+export AES_KEY="your aes key (has to be 16, 24, or 32 characters long)"
 
 export SQL_USERNAME="your sql username"
 export SQL_PASSWORD="your sql password"

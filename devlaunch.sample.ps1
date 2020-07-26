@@ -3,7 +3,7 @@
 & .\venv\Scripts\activate.ps1
 
 # your env variables
-$Env:SECRET_KEY="your secret key"
+$Env:AES_KEY="your aes key (has to be 16, 24, or 32 characters long)"
 
 $Env:SQL_USERNAME="your sql username"
 $Env:SQL_PASSWORD="your password"
