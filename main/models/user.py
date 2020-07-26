@@ -33,6 +33,14 @@ class User(db.Model):
 
 class UserQuery(object):
     @staticmethod
+    def active_users_with_firebase_uid(firebase_uid: str):
+        return User.query.filter(and_(User.firebase_uid == firebase_uid, User.active == true()))
+
+    @staticmethod
+    def exists_active_user_with_firebase_uid(firebase_uid: str) -> bool:
+        return User.query.filter(and_(User.firebase_uid == firebase_uid, User.active == true())).count() > 0
+
+    @staticmethod
     def exists_active_user_with_username(username: str):
         return User.query.filter(and_(User.username == username, User.active == true())).count() > 0
 

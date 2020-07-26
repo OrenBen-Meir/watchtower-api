@@ -1,4 +1,4 @@
-from main.models.user_model import User
+from main.models.user import User
 
 
 class UserSignUpLayout:
@@ -45,21 +45,25 @@ class UserLoginLayout:
 
 
 class UserInfoLayout:
-    def __init__(self, json=None):
-        self.username = None
-        self.email = None
-        self.user_roles = None
+    def __init__(self, username=None, email=None, uid=None, user_roles=None, json=None):
         if json is not None:
             self.from_dict(json)
+        else:
+            self.username = username
+            self.email = email
+            self.uid = uid
+            self.user_roles = user_roles
 
     def from_dict(self, json: dict):
         self.username = json.get("username", None)
-        self.email = json.get("email", None)
+        self.uid = json.get("uid", None)
         self.user_roles = json.get("user_roles", None)
+        self.email = json.get("email", None)
         return self
 
     def to_dict(self) -> dict:
         dict_form = {
+            "uid": self.uid,
             "username": self.username,
             "email": self.email,
             "user_roles": self.user_roles

@@ -1,8 +1,8 @@
 from flask import request, Blueprint, jsonify
 
 from main.errors import error_creation
-from main.layouts.users import UserSignUpLayout, UserLoginLayout
-from main.security import roles
+from main.layouts.user import UserSignUpLayout, UserLoginLayout
+from main.security import roles, cookie_names
 from main.security.authorization import authenticate
 from main.services import user_service
 from main.utils.request_utils import request_is_json, success_response
@@ -13,9 +13,11 @@ users_bp = Blueprint('users_bp', __name__, url_prefix="/users")
 @users_bp.route("/register", methods=['POST'])
 @request_is_json
 def register():
-    user_signup_layout = UserSignUpLayout().from_dict(request.json)
-    response_layout = user_service.register_user(user_signup_layout)
-    return jsonify(response_layout.to_dict())
+    user_signup_layout = UserSignUpLayout(json=request.json)
+    response_layout, token = user_service.register_user(user_signup_layout)
+    res = jsonify(response_layout.to_dict())
+    res.set_cookie(cookie_names.session, value=token, httponly=True)
+    return res
 
 
 @users_bp.route('/login', methods=['POST'])
