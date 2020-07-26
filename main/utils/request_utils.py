@@ -27,7 +27,6 @@ def success_response(message="Success!!") -> dict:
 
 def get_request_pagination_info() -> (int, int):
     args = request.args
-    print(args)
     page, per_page = None, None
     try:
         page = int(args.get("page"))
