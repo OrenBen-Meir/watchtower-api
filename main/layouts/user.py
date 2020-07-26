@@ -51,25 +51,25 @@ class UserInfoLayout:
         else:
             self.username = username
             self.email = email
-            self.uid = uid
             self.user_roles = user_roles
 
     def from_dict(self, json: dict):
         self.username = json.get("username", None)
-        self.uid = json.get("uid", None)
         self.user_roles = json.get("user_roles", None)
         self.email = json.get("email", None)
         return self
 
     def to_dict(self) -> dict:
         dict_form = {
-            "uid": self.uid,
             "username": self.username,
             "email": self.email,
             "user_roles": self.user_roles
         }
         return {k: v for k, v in dict_form.items() if v is not None}
 
-    def from_user(self, user: User):
-        self.username = user.username
-        self.user_roles = user.user_roles
+    @staticmethod
+    def from_user(user: User):
+        user_info_layout = UserInfoLayout()
+        user_info_layout.username = user.username
+        user_info_layout.user_roles = user.user_roles
+        return user_info_layout
