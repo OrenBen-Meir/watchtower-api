@@ -14,8 +14,6 @@ def authenticate(roles: list = None, check_email_verified: bool = False):
     Set roles list to provide a list of user roles that can access a request .
     Set check_email_verified to be True if email must be verified for an action
     """
-    if roles is None:
-        roles = []
 
     def decorator(f):
         @wraps(f)
@@ -48,7 +46,7 @@ def authenticate(roles: list = None, check_email_verified: bool = False):
             if check_email_verified and not email_verified:
                 raise error_creation.authorization_error(reasons=[error_reasons.authorization_email_not_verified()])
 
-            if all(role not in user.user_roles_list for role in roles):
+            if roles is not None and all(role not in user.user_roles_list for role in roles):
                 raise error_creation.permission_error()
 
             return f(*args, **kwargs)

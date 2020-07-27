@@ -102,7 +102,7 @@ def get_session_user_data():
         raise error_creation.server_error()
     except IndexError:
         raise error_creation.server_error()
-    user = UserQuery.get_first_active_user_with_firebase_uid('localId')
+    user = UserQuery.get_first_active_user_with_firebase_uid(user_data['localId'])
     user_data['username'] = user.username
     user_data["user_roles"] = user.user_roles_list
     return user_data

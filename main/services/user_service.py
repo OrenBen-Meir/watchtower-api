@@ -38,7 +38,7 @@ def login_from_layout(login_user_layout: UserLoginLayout) -> (UserInfoLayout, st
         returns a tuple of the form (user_info_layout, a user token). The token may then be processed into
         a session cookie.
     """
-    auth = firebase()
+    auth = firebase.auth()
     try:
         user_data = auth.sign_in_with_email_and_password(login_user_layout.email, login_user_layout.password)
     except HTTPError:

@@ -43,7 +43,7 @@ def logged_in_user():
 
 
 @users_bp.route("/", methods=['GET'])
-@authenticate(roles=[roles.manager, roles.admin])
+@authenticate(roles=[roles.manager, roles.admin], check_email_verified=True)
 def get_users():
     page, per_page = get_request_pagination_info()
     return jsonify(user_service.get_users(page, per_page))
