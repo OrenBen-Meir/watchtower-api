@@ -5,7 +5,10 @@ class ApplicationException(Exception):
         self.message = message
         self.status_code = status_code
         self.payload = payload
-        self.reasons = reasons
+        if reasons is None:
+            self.reasons = []
+        else:
+            self.reasons = reasons
 
     def to_dict(self) -> dict:
         rv = dict(self.payload or ())
