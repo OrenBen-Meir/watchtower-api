@@ -85,7 +85,8 @@ def get_session_user_data():
       "validSince": "1595719872",
       "lastLoginAt": "1595719872845",
       "createdAt": "1595719872845",
-      "lastRefreshAt": "2020-07-25T23:31:12.845Z"
+      "lastRefreshAt": "2020-07-25T23:31:12.845Z",
+      "idToken": "someIdTokenForLoggedInUser"
     }
     """
     session_cookie = get_session_cookie()
@@ -105,4 +106,5 @@ def get_session_user_data():
     user = UserQuery.get_first_active_user_with_firebase_uid(user_data['localId'])
     user_data['username'] = user.username
     user_data["user_roles"] = user.user_roles_list
+    user_data["idToken"] = token
     return user_data
