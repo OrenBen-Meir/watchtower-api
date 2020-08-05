@@ -2,7 +2,7 @@ class _CookieNames:
 
     @property
     def session(self) -> str:
-        return "fXAghVOhg8okevEDwObm"
+        return "JSESSIONID"
 
 
 cookie_names = _CookieNames()

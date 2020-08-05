@@ -10,7 +10,7 @@ def user_creation_rules(user_signup_layout: UserSignUpSchema):
     if user_signup_layout.username is None:
         reasons.append("Username can't be empty")
     else:
-        if 6 > len(user_signup_layout.username) > 30:
+        if len(user_signup_layout.username) < 6 or 30 < len(user_signup_layout.username):
             reasons.append("Username must be 6 to 30 characters")
         if UserQuery.exists_active_user_with_username(user_signup_layout.username):
             reasons.append("username already used")
@@ -22,7 +22,7 @@ def user_creation_rules(user_signup_layout: UserSignUpSchema):
             reasons.append("email not formatted correctly")
 
     if user_signup_layout.password is None or len(user_signup_layout.password) < 6:
-        reasons.append("password must be 6 characters ot more")
+        reasons.append("password must be 6 characters or more")
 
     if len(reasons) > 0:
         raise bad_request(reasons=reasons)
