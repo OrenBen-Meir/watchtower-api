@@ -1,10 +1,10 @@
-from main.layouts.user_layouts import UserSignUpLayout
+from main.schemas.user_schemas import UserSignUpSchema
 from main.models.user_model import User, UserQuery
 from main.errors.error_creation import bad_request
 from validate_email import validate_email
 
 
-def user_creation_rules(user_signup_layout: UserSignUpLayout):
+def user_creation_rules(user_signup_layout: UserSignUpSchema):
     reasons = []
 
     if user_signup_layout.username is None:

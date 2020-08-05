@@ -18,7 +18,7 @@ def request_is_json(function):
     return wrapper
 
 
-def success_response(message="Success!!") -> dict:
+def success_response(message: str = "Success!!") -> dict:
     """
     generic success json response dictionary
     """

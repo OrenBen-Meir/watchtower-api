@@ -1,7 +1,7 @@
 from main.models.user_model import User
 
 
-class UserSignUpLayout:
+class UserSignUpSchema:
     def __init__(self, json=None):
         self.username = None
         self.email = None
@@ -24,7 +24,7 @@ class UserSignUpLayout:
         return {k: v for k, v in dict_form.items() if v is not None}
 
 
-class UserLoginLayout:
+class UserLoginSchema:
     def __init__(self, json=None):
         self.email = None
         self.password = None
@@ -44,7 +44,7 @@ class UserLoginLayout:
         return {k: v for k, v in dict_form.items() if v is not None}
 
 
-class UserInfoLayout:
+class UserInfoSchema:
     def __init__(self, username=None, email=None, user_roles=None, json=None):
         if json is not None:
             self.from_dict(json)
@@ -69,7 +69,7 @@ class UserInfoLayout:
 
     @staticmethod
     def from_user(user: User):
-        user_info_layout = UserInfoLayout()
+        user_info_layout = UserInfoSchema()
         user_info_layout.username = user.username
         user_info_layout.user_roles = user.user_roles_list
         return user_info_layout

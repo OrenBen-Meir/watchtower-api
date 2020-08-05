@@ -1,9 +1,14 @@
-from flask import (url_for, flash, redirect, request, abort, Blueprint, jsonify)
-from main.application import db
+from flask import Blueprint, send_from_directory, jsonify
+from flask_swagger_ui import get_swaggerui_blueprint
 
-root_bp = Blueprint('root_bp', __name__)
+root_blueprint = Blueprint('root_bp', __name__)
+
+# set up support for static file support
+@root_blueprint.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
 
 
-@root_bp.route("/")
+@root_blueprint.route("/")
 def rootRoute():
-    return "watchtower"
+    return jsonify(app="watchtower")
