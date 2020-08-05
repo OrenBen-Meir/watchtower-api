@@ -1,5 +1,4 @@
 ---
-# Todo add security/authentication specs
 openapi: 3.0.0
 info:
   description: API for the watchtower app
@@ -13,7 +12,8 @@ paths:
     get:
       tags:
         - Users
-      summary: Returns a list of users
+      summary: Returns a page of users
+      description: Returns a page of users (admins only)
       security:
         - cookieAuth: []
       parameters:
@@ -29,7 +29,7 @@ paths:
           description: Number of items per page
       responses:
         '200':
-          description: A list of users
+          description: A page of users
           content:
             application/json:
               schema:

@@ -9,38 +9,38 @@ from main.security import roles, session
 from main.utils.data_format import pagination_to_dict
 
 
-def register_user(user_signup_layout: UserSignUpSchema) -> (UserInfoSchema, str):
+def register_user(user_signup_schema: UserSignUpSchema) -> (UserInfoSchema, str):
     """
-    takes in registration info from user_signup_layout and registers a user.
-    returns a tuple of the form (user_info_layout, a user token)
+    takes in registration info from user_signup_schema and registers a user.
+    returns a tuple of the form (user_info_schema, a user token)
     """
-    user_rules.user_creation_rules(user_signup_layout)
+    user_rules.user_creation_rules(user_signup_schema)
     auth = firebase.auth()
     try:
-        firebase_user = auth.create_user_with_email_and_password(user_signup_layout.email, user_signup_layout.password)
+        firebase_user = auth.create_user_with_email_and_password(user_signup_schema.email, user_signup_schema.password)
     except HTTPError:
         raise error_creation.bad_request(reasons=["Account already exists"])
     if UserQuery.exists_active_user_with_firebase_uid(firebase_user['localId']):
         UserQuery.active_users_with_firebase_uid(firebase_user['localId']).update(dict(active=False))
-    user_row = User(username=user_signup_layout.username, firebase_uid=firebase_user['localId'])
+    user_row = User(username=user_signup_schema.username, firebase_uid=firebase_user['localId'])
     user_row.user_roles_list = [roles.regular]
     db.session.add(user_row)
     db.session.commit()
     id_token: str = firebase_user['idToken']
     auth.send_email_verification(id_token)
-    user_info_layout = UserInfoSchema(username=user_signup_layout.username, email=user_signup_layout.email, user_roles=user_row.user_roles_list)
-    return user_info_layout, id_token
+    user_info_schema = UserInfoSchema(username=user_signup_schema.username, email=user_signup_schema.email, user_roles=user_row.user_roles_list)
+    return user_info_schema, id_token
 
 
-def login_from_layout(login_user_layout: UserLoginSchema) -> (UserInfoSchema, str):
+def login_from_schema(login_user_schema: UserLoginSchema) -> (UserInfoSchema, str):
     """
-        takes in login info from login_user_layout and logs in a user by generating a token.
-        returns a tuple of the form (user_info_layout, a user token). The token may then be processed into
+        takes in login info from login_user_schema and logs in a user by generating a token.
+        returns a tuple of the form (user_info_schema, a user token). The token may then be processed into
         a session cookie.
     """
     auth = firebase.auth()
     try:
-        user_data = auth.sign_in_with_email_and_password(login_user_layout.email, login_user_layout.password)
+        user_data = auth.sign_in_with_email_and_password(login_user_schema.email, login_user_schema.password)
     except HTTPError:
         raise error_creation.bad_request(reasons=[error_reasons.bad_request_invalid_credentials()])
     user = UserQuery.get_first_active_user_with_firebase_uid(user_data['localId'])

@@ -12,9 +12,9 @@ users_api = Blueprint('users_bp', __name__, url_prefix="/users")
 @users_api.route("/register", methods=['POST'])
 @request_is_json
 def register():
-    user_signup_layout = UserSignUpSchema(json=request.json)
-    user_info_layout, token = user_service.register_user(user_signup_layout)
-    response = jsonify(user_info_layout.to_dict())
+    user_signup_schema = UserSignUpSchema(json=request.json)
+    user_info_schema, token = user_service.register_user(user_signup_schema)
+    response = jsonify(user_info_schema.to_dict())
     session.set_session_cookie_from_token(response, token)
     return response
 
@@ -22,9 +22,9 @@ def register():
 @users_api.route('/login', methods=['POST'])
 @request_is_json
 def login():
-    user_layout = UserLoginSchema().from_dict(request.json)
-    user_info_layout, token = user_service.login_from_layout(user_layout)
-    response = jsonify(user_info_layout.to_dict())
+    user_login_schema = UserLoginSchema().from_dict(request.json)
+    user_info_schema, token = user_service.login_from_schema(user_login_schema)
+    response = jsonify(user_info_schema.to_dict())
     session.set_session_cookie_from_token(response, token)
     return response
 
