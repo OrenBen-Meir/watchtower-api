@@ -138,6 +138,8 @@ components:
           type: string
     UserInfoSchema:
       properties:
+        uid:
+          type: string
         username:
           type: string
         user_roles:

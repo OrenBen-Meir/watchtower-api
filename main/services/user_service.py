@@ -20,16 +20,26 @@ def register_user(user_signup_schema: UserSignUpSchema) -> (UserInfoSchema, str)
         firebase_user = auth.create_user_with_email_and_password(user_signup_schema.email, user_signup_schema.password)
     except HTTPError:
         raise error_creation.bad_request(reasons=["Account already exists"])
-    if UserQuery.exists_active_user_with_firebase_uid(firebase_user['localId']):
-        UserQuery.active_users_with_firebase_uid(firebase_user['localId']).update(dict(active=False))
-    user_row = User(username=user_signup_schema.username, firebase_uid=firebase_user['localId'])
+
+    session_id_token: str = firebase_user['idToken']
+    user_uid: str = firebase_user['localId']
+
+    if UserQuery.exists_active_user_with_firebase_uid(user_uid):
+        UserQuery.active_users_with_firebase_uid(user_uid).update(dict(active=False))
+
+    user_row = User(username=user_signup_schema.username, firebase_uid=user_uid)
     user_row.user_roles_list = [roles.regular]
     db.session.add(user_row)
     db.session.commit()
-    id_token: str = firebase_user['idToken']
-    auth.send_email_verification(id_token)
-    user_info_schema = UserInfoSchema(username=user_signup_schema.username, email=user_signup_schema.email, user_roles=user_row.user_roles_list)
-    return user_info_schema, id_token
+
+    auth.send_email_verification(session_id_token)
+    user_info_schema = UserInfoSchema(
+        uid=user_uid,
+        username=user_signup_schema.username,
+        email=user_signup_schema.email,
+        user_roles=user_row.user_roles_list
+    )
+    return user_info_schema, session_id_token
 
 
 def login_from_schema(login_user_schema: UserLoginSchema) -> (UserInfoSchema, str):
@@ -44,8 +54,15 @@ def login_from_schema(login_user_schema: UserLoginSchema) -> (UserInfoSchema, st
     except HTTPError:
         raise error_creation.bad_request(reasons=[error_reasons.bad_request_invalid_credentials()])
     user = UserQuery.get_first_active_user_with_firebase_uid(user_data['localId'])
-    token: str = user_data['idToken']
-    return UserInfoSchema(username=user.username, email=user_data['email']), token
+
+    user_info_schema = UserInfoSchema(
+        uid=user.firebase_uid,
+        username=user.username,
+        email=user_data['email'],
+        user_roles=user.user_roles
+    )
+    session_token: str = user_data['idToken']
+    return user_info_schema, session_token
 
 
 def logged_in_user() -> UserInfoSchema:
@@ -55,7 +72,12 @@ def logged_in_user() -> UserInfoSchema:
     user_data = session.get_session_user_data()
     if user_data is None:
         return UserInfoSchema()
-    return UserInfoSchema(username=user_data['username'], email=user_data['email'], user_roles=user_data['user_roles'])
+    return UserInfoSchema(
+        uid=user_data['localId'],
+        username=user_data['username'],
+        email=user_data['email'],
+        user_roles=user_data['user_roles']
+    )
 
 
 def get_users(page: int, per_page: int) -> dict:
