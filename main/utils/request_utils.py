@@ -18,7 +18,7 @@ def request_is_json(function):
     return wrapper
 
 
-def success_response(message="Success!!") -> dict:
+def success_response(message: str = "Success!!") -> dict:
     """
     generic success json response dictionary
     """
@@ -33,11 +33,11 @@ def get_request_pagination_info() -> (int, int):
     except TypeError:
         pass
     except ValueError:
-        error_reasons.bad_request_element_must_be_an_integer(args.get("page"))
+        error_reasons.bad_request_element_must_be_an_integer("page")
     try:
         per_page = int(args.get("per_page"))
     except TypeError:
         pass
     except ValueError:
-        error_reasons.bad_request_element_must_be_an_integer(args.get("per_page"))
+        error_reasons.bad_request_element_must_be_an_integer("per_page")
     return page, per_page

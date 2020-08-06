@@ -4,3 +4,4 @@ Flask-SQLAlchemy==2.4.4
 py3-validate-email==0.2.9
 pyodbc==4.0.30
 Pyrebase==3.0.27
+flask_swagger_ui==3.20.9

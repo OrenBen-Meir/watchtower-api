@@ -1,0 +1,170 @@
+---
+openapi: 3.0.0
+info:
+  description: API for the watchtower app
+  version: 1.0.0
+  title: Watchtower API
+tags:
+  - name: Users
+    description: API for handling users and user authentication
+paths:
+  "/users":
+    get:
+      tags:
+        - Users
+      summary: Returns a page of users
+      description: Returns a page of users (admins only)
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page number
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+          description: Number of items per page
+      responses:
+        '200':
+          description: A page of users
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserInfoPageSchema"
+  "/users/current":
+    get:
+      tags:
+        - Users
+      summary: Returns signed in user info
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: User info
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserInfoSchema"
+      produces:
+        - application/json
+  "/users/register":
+    post:
+      tags:
+        - Users
+      summary: Registers a user
+      responses:
+        '200':
+          description: User info
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserInfoSchema"
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: JSESSIONID=abcde12345; Path=/; HttpOnly
+      requestBody:
+        description: User Sign Up Schema
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserSignUpSchema"
+      produces:
+        - application/json
+  "/users/login":
+    post:
+      tags:
+      - Users
+      summary: Logs in a user
+      responses:
+        '200':
+          description: User info
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserInfoSchema"
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: JSESSIONID=abcde12345; Path=/; HttpOnly
+      requestBody:
+        description: User Log In Schema
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserLoginSchema"
+      produces:
+        - application/json
+  "/users/logout":
+    get:
+      tags:
+        - Users
+      summary: Logs out a user
+      responses:
+        '200':
+          description: Success message
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SuccessMessageSchema"
+      produces:
+        - application/json
+components:
+  schemas:
+    SuccessMessageSchema:
+      properties:
+        success_message:
+          type: string
+    UserSignUpSchema:
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    UserLoginSchema:
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    UserInfoSchema:
+      properties:
+        uid:
+          type: string
+        username:
+          type: string
+        user_roles:
+          type: array
+          items:
+            type: string
+        email:
+          type: string
+    UserInfoPageSchema:
+      properties:
+        items:
+          type: array
+          items:
+            "$ref": "#/components/schemas/UserInfoSchema"
+        page:
+          type: integer
+        per_page:
+          type: integer
+        total:
+          type: integer
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: JSESSIONID
+
+  security:
+    - cookieAuth: []
