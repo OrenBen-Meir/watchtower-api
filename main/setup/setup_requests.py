@@ -14,6 +14,9 @@ def _register_urls(app: Flask):
     from main.controllers.users_controller import users_api
     app.register_blueprint(users_api)
 
+    from main.controllers.subways_controller import subways_api
+    app.register_blueprint(subways_api)
+
 
 def setup_requests(app: Flask):
     """

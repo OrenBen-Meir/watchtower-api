@@ -3,7 +3,7 @@ from flask import Blueprint, send_from_directory, jsonify
 from main.errors import error_creation
 from main.utils.env_utils import is_production_env
 
-root_blueprint = Blueprint('root_bp', __name__)
+root_blueprint = Blueprint('root_blueprint', __name__)
 
 
 # set up support for static file support

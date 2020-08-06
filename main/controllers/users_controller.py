@@ -6,7 +6,7 @@ from main.security.authorization import authenticate
 from main.services import user_service
 from main.utils.request_utils import request_is_json, success_response, get_request_pagination_info
 
-users_api = Blueprint('users_bp', __name__, url_prefix="/users")
+users_api = Blueprint('users_api', __name__, url_prefix="/users")
 
 
 @users_api.route("/register", methods=['POST'])
