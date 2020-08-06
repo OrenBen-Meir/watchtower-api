@@ -19,7 +19,7 @@ def register_user(user_signup_schema: UserSignUpSchema) -> (UserInfoSchema, str)
     try:
         firebase_user = auth.create_user_with_email_and_password(user_signup_schema.email, user_signup_schema.password)
     except HTTPError as e:
-        raise error_creation.bad_request(reasons=["Account already exists", str(e)])
+        raise error_creation.bad_request(reasons=["Account already exists"])
 
     session_id_token: str = firebase_user['idToken']
     user_uid: str = firebase_user['localId']
