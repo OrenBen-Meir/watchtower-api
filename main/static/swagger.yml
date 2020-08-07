@@ -28,7 +28,7 @@ paths:
       tags:
         - Users
       summary: Returns a page of users
-      description: Returns a page of users (admins only)
+      description: Returns a page of users (managers only)
       security:
         - cookieAuth: []
       parameters:
@@ -49,6 +49,30 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/UserInfoPageSchema"
+  "/users/userByUid":
+    post:
+      tags:
+        - Users
+      summary: Returns user by id
+      description: Returns user by id (managers only)
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: User info
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserInfoSchema"
+      requestBody:
+        description: User UID
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserSearchByUIDSchema"
+      produces:
+        - application/json
   "/users/current":
     get:
       tags:
@@ -219,6 +243,10 @@ components:
           type: integer
         total:
           type: integer
+    UserSearchByUIDSchema:
+      properties:
+        uid:
+          type: string
     SubwaySchema:
       properties:
         uid:

@@ -3,7 +3,8 @@ from requests import HTTPError
 from main.application import firebase, db
 from main.business_rules import user_rules
 from main.errors import error_reasons, error_creation
-from main.schemas.user_schemas import UserLoginSchema, UserSignUpSchema, UserInfoSchema, UserPasswordResetSchema
+from main.schemas.user_schemas import UserLoginSchema, UserSignUpSchema, UserInfoSchema, UserPasswordResetSchema, \
+    UserSearchByUIDSchema
 from main.models.user_model import UserQuery, User
 from main.security import roles, session
 from main.utils.data_format import pagination_to_dict
@@ -96,3 +97,10 @@ def get_users(page: int, per_page: int) -> dict:
     users_pagination = UserQuery.get_active_users_by_pagination(page, per_page)
     users_pagination.items = [UserInfoSchema.from_user(user).to_dict() for user in users_pagination.items]
     return pagination_to_dict(users_pagination)
+
+
+def get_user_by_uid(user_search: UserSearchByUIDSchema) -> UserInfoSchema:
+    user: User = UserQuery.get_first_active_user_with_firebase_uid(user_search.uid)
+    if user is None:
+        raise error_creation.bad_request(reasons=[error_reasons.bad_request_user_not_found()])
+    return UserInfoSchema.from_user(user)

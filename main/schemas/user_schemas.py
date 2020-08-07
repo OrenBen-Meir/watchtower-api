@@ -43,12 +43,29 @@ class UserLoginSchema:
 
 class UserPasswordResetSchema:
     def __init__(self, json=None):
-        self.email: Optional[str] = None
         if json is not None:
             self.from_dict(json)
+        else:
+            self.email: Optional[str] = None
 
     def from_dict(self, json: dict):
         self.email: Optional[str] = json.get("email", None)
+        return self
+
+    def to_dict(self) -> dict:
+        dict_form = self.__dict__
+        return {k: v for k, v in dict_form.items() if v is not None}
+
+
+class UserSearchByUIDSchema:
+    def __init__(self, json=None):
+        if json is not None:
+            self.from_dict(json)
+        else:
+            self.uid: Optional[str] = None
+
+    def from_dict(self, json: dict):
+        self.uid: Optional[str] = json.get("uid", None)
         return self
 
     def to_dict(self) -> dict:

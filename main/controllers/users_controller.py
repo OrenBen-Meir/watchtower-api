@@ -1,6 +1,6 @@
 from flask import request, Blueprint, jsonify
 
-from main.schemas.user_schemas import UserSignUpSchema, UserLoginSchema, UserPasswordResetSchema
+from main.schemas.user_schemas import UserSignUpSchema, UserLoginSchema, UserPasswordResetSchema, UserSearchByUIDSchema
 from main.security import roles, session
 from main.security.authorization import authenticate
 from main.services import user_service
@@ -50,9 +50,15 @@ def logged_in_user():
 
 
 @users_api.route("/userRoles", methods=['GET'])
-@authenticate(roles=roles.employees())
+@authenticate(roles=roles.employees(), check_email_verified=True)
 def user_roles():
     return jsonify(roles.all_roles())
+
+
+@users_api.route("/userByUid", methods=['POST'])
+@authenticate(roles=roles.managers(), check_email_verified=True)
+def get_user_by_id():
+    return jsonify(user_service.get_user_by_uid(UserSearchByUIDSchema(json=request.json)).to_dict())
 
 
 @users_api.route("/", methods=['GET'])

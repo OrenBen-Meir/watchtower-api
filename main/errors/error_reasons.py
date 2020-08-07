@@ -11,6 +11,10 @@ def bad_request_invalid_credentials():
     return "invalid credentials"
 
 
+def bad_request_user_not_found():
+    return "user not found"
+
+
 def authorization_email_not_verified():
     return "account email not verified"
 
