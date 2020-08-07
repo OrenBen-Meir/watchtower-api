@@ -1,6 +1,6 @@
 from flask import request, Blueprint, jsonify
 
-from main.schemas.user_schemas import UserSignUpSchema, UserLoginSchema
+from main.schemas.user_schemas import UserSignUpSchema, UserLoginSchema, UserPasswordResetSchema
 from main.security import roles, session
 from main.security.authorization import authenticate
 from main.services import user_service
@@ -34,6 +34,13 @@ def logout():
     response = jsonify(success_response(message="logged out!!"))
     session.clear_session_cookie(response)
     return response
+
+
+@users_api.route('/resetPassword', methods=['POST'])
+def reset_password():
+    user_password_reset_schema = UserPasswordResetSchema(json=request.json)
+    user_service.send_reset_password(user_password_reset_schema)
+    return jsonify(success_response(message="Emailed password reset link"))
 
 
 @users_api.route("/current", methods=['GET'])

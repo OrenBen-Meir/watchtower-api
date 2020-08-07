@@ -131,6 +131,27 @@ paths:
                 "$ref": "#/components/schemas/SuccessMessageSchema"
       produces:
         - application/json
+  "/users/resetPassword":
+    post:
+      tags:
+        - Users
+      summary: Sends a password reset link for a user
+      responses:
+        '200':
+          description: Success message
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SuccessMessageSchema"
+      requestBody:
+        description: User password reset schema
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserPasswordResetSchema"
+      produces:
+        - application/json
 components:
   schemas:
     SuccessMessageSchema:
@@ -150,6 +171,10 @@ components:
         email:
           type: string
         password:
+          type: string
+    UserPasswordResetSchema:
+      properties:
+        email:
           type: string
     UserInfoSchema:
       properties:

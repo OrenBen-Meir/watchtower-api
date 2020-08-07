@@ -40,7 +40,6 @@ def authenticate(roles: list = None, check_email_verified: bool = False):
 
             user = UserQuery.get_first_active_user_with_firebase_uid(uid)
             if user is None:
-                # Todo: create new user with unique username
                 raise error_creation.server_error()
 
             if check_email_verified and not email_verified:

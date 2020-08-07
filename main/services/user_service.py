@@ -3,7 +3,7 @@ from requests import HTTPError
 from main.application import firebase, db
 from main.business_rules import user_rules
 from main.errors import error_reasons, error_creation
-from main.schemas.user_schemas import UserLoginSchema, UserSignUpSchema, UserInfoSchema
+from main.schemas.user_schemas import UserLoginSchema, UserSignUpSchema, UserInfoSchema, UserPasswordResetSchema
 from main.models.user_model import UserQuery, User
 from main.security import roles, session
 from main.utils.data_format import pagination_to_dict
@@ -63,6 +63,15 @@ def login_from_schema(login_user_schema: UserLoginSchema) -> (UserInfoSchema, st
     )
     session_token: str = user_data['idToken']
     return user_info_schema, session_token
+
+
+def send_reset_password(user_password_reset_schema: UserPasswordResetSchema):
+    auth = firebase.auth()
+    try:
+        auth.send_password_reset_email(email=user_password_reset_schema.email)
+    except HTTPError:
+        pass
+    return user_password_reset_schema
 
 
 def logged_in_user() -> UserInfoSchema:
