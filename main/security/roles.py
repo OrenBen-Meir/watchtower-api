@@ -16,14 +16,29 @@ class Roles:
     def admin(self) -> str:
         return "admin"
 
-    def is_role_valid(self, role: str):
-        valid_roles = [
+    def employees(self):
+        return [
+            self.reviewer,
+            self.manager,
+            self.admin
+        ]
+
+    def managers(self):
+        return [
+            self.manager,
+            self.admin
+        ]
+
+    def all_roles(self):
+        return [
             self.regular,
             self.reviewer,
             self.manager,
             self.admin
         ]
-        return role in valid_roles
+
+    def is_role_valid(self, role: str):
+        return role in self.all_roles()
 
 
 roles = Roles()

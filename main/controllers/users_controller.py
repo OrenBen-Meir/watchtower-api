@@ -49,8 +49,14 @@ def logged_in_user():
     return jsonify(user_service.logged_in_user().to_dict())
 
 
+@users_api.route("/userRoles", methods=['GET'])
+@authenticate(roles=roles.employees())
+def user_roles():
+    return jsonify(roles.all_roles())
+
+
 @users_api.route("/", methods=['GET'])
-@authenticate(roles=[roles.manager, roles.admin], check_email_verified=True)
+@authenticate(roles=roles.managers(), check_email_verified=True)
 def get_users():
     page, per_page = get_request_pagination_info()
     return jsonify(user_service.get_users(page, per_page))

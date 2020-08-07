@@ -65,6 +65,25 @@ paths:
                 "$ref": "#/components/schemas/UserInfoSchema"
       produces:
         - application/json
+  "/users/userRoles":
+    get:
+      tags:
+        - Users
+      summary: Returns all user roles
+      description: Returns all user roles (employees only)
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: User roles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      produces:
+        - application/json
   "/users/register":
     post:
       tags:
